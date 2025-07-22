@@ -1,0 +1,39 @@
+name: Python CI
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches:
+      - main
+
+# Define jobs and steps
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can change to another runner (e.g., windows-latest, macos-latest)
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Use the desired Python version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Step 4: Run tests
+      - name: Run tests
+        run: |
+          pytest tests/  # Run the tests in the tests folder
+
+      # Step 5: Linting (Optional)
+      - name: Lint code
+        run: |
+          pip install flake8
+          flake8 main.py tests/
